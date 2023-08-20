@@ -28,6 +28,7 @@ return new class() extends Migration
             $table->double('change_due', 8, 2);
             $table->string('status')->default('processed');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

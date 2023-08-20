@@ -17,6 +17,7 @@ return new class() extends Migration
             $table->uuid('id')->index();
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
