@@ -25,7 +25,10 @@ class ProductSeeder extends Seeder
         $this->command->info('Categories created successfully.');
 
         $this->withProgressBar(50, fn () => Product::factory(1)
-            ->create(['category_id' => $categories->pluck('id')->random()]));
+            ->create([
+                'category_id' => $categories->pluck('id')->random(),
+                'sku' => str(str($categories->pluck('name')->random())->substr(0, 3) . '-' . str()->random(9))->upper(),
+            ]));
 
         $this->command->info('Products created successfully.');
     }

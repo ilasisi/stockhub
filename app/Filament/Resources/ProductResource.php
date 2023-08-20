@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
+use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -27,6 +28,24 @@ class ProductResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->live()
                     ->required(),
+                Forms\Components\Select::make('category_id')
+                    ->relationship('category', 'name')
+                    ->preload()
+                    ->live()
+                    ->searchable()
+                    ->required()
+                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set): void {
+                        $category = Category::find($state);
+
+                        if ('create' === $operation && $category) {
+                            $set('sku', (string) str(str($category->name)->substr(0, 3) . '-' . str()->random(9))->upper());
+                        }
+                    })
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->unique(Category::class, 'name', ignoreRecord: false)
+                            ->required(),
+                    ]),
                 Forms\Components\TextInput::make('price')
                     ->required()
                     ->numeric()
@@ -43,19 +62,10 @@ class ProductResource extends Resource
                     ->label('Available Qty.')
                     ->numeric()
                     ->required(),
-                Forms\Components\Select::make('category')
-                    ->relationship('category', 'name')
-                    ->preload()
-                    ->searchable()
-                    ->required()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('name')
-                            ->required(),
-                    ]),
                 Forms\Components\Textarea::make('description')
                     ->rows(4)
                     ->columnSpanFull(),
-            ]);
+            ])->columns(['lg' => 3]);
     }
 
     public static function table(Table $table): Table
@@ -103,9 +113,7 @@ class ProductResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     public static function getPages(): array

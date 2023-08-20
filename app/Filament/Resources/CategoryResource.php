@@ -25,7 +25,8 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->unique(Category::class, 'name'),
             ]);
     }
 
@@ -58,9 +59,7 @@ class CategoryResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     public static function getPages(): array
