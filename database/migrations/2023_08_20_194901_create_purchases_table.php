@@ -18,11 +18,11 @@ return new class() extends Migration
             $table->uuid('user_id')->nullable()->constrained()->nullOnDelete();
             $table->uuid('customer_id')->nullable()->constrained()->nullOnDelete();
             $table->uuid('payment_type_id')->nullable()->constrained()->nullOnDelete();
-            $table->double('items_total', 8, 2);
             $table->double('discount_amount', 8, 2)->nullable();
             $table->double('discount_percentage', 8, 2)->nullable();
             $table->double('vat_amount', 8, 2)->nullable();
             $table->double('vat_percentage', 8, 2)->nullable();
+            $table->double('items_total', 8, 2);
             $table->double('grand_total', 8, 2);
             $table->double('amount_tender', 8, 2);
             $table->double('change_due', 8, 2);

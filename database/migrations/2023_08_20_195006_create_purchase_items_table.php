@@ -16,11 +16,11 @@ return new class() extends Migration
         Schema::create('purchase_items', function (Blueprint $table): void {
             $table->uuid('id');
             $table->string('ref');
+            $table->uuid('purchase_id')->constrained()->cascadeOnDelete();
             $table->uuid('product_id')->nullable()->constrained()->nullOnDelete();
             $table->integer('quantity')->default(1);
             $table->double('unit_price', 8, 2);
             $table->double('total_price', 8, 2);
-            $table->double('grand_total', 8, 2);
             $table->timestamps();
         });
     }
