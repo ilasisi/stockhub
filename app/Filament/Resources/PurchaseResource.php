@@ -23,7 +23,7 @@ class PurchaseResource extends Resource
     {
         return $form
             ->schema([
-n                Forms\Components\Wizard::make([
+                Forms\Components\Wizard::make([
                     Forms\Components\Wizard\Step::make('Items')
                         ->schema([
                             Forms\Components\Repeater::make('purchaseItems')
@@ -55,7 +55,7 @@ n                Forms\Components\Wizard::make([
                                         ->live()
                                         ->numeric()
                                         ->label('Qty.')
-                                        ->disabled(fn (Forms\Get $get) => !$get('product_id'))
+                                        ->disabled(fn (Forms\Get $get) => ! $get('product_id'))
                                         ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get): void {
                                             $product = Product::find($get('product_id'));
 
@@ -151,8 +151,7 @@ n                Forms\Components\Wizard::make([
                                                         ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get): void {
                                                             $set('grand_total', $get('items_total'));
                                                             $set('discount_amount', null);
-                                                            $set('discount_percentage', null);t
-
+                                                            $set('discount_percentage', null);
                                                         }),
                                                     Forms\Components\TextInput::make('discount_amount')
                                                         ->label('Discount (₦)')
@@ -160,7 +159,7 @@ n                Forms\Components\Wizard::make([
                                                         ->minValue(0)
                                                         ->prefix('₦')
                                                         ->numeric()
-                                                        ->hidden(fn (Forms\Get $get): bool => !$get('is_discount_amount'))
+                                                        ->hidden(fn (Forms\Get $get): bool => ! $get('is_discount_amount'))
                                                         ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get): void {
                                                             $set('grand_total', $get('items_total') - $state + $get('vat_amount'));
                                                         }),
@@ -191,7 +190,7 @@ n                Forms\Components\Wizard::make([
                                                         ->label('VAT (₦)')
                                                         ->minValue(0)
                                                         ->live(onBlur: true)
-                                                        ->hidden(fn (Forms\Get $get): bool => !$get('is_vat_amount'))
+                                                        ->hidden(fn (Forms\Get $get): bool => ! $get('is_vat_amount'))
                                                         ->prefix('₦')
                                                         ->numeric()
                                                         ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get): void {
