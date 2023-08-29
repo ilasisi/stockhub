@@ -15,6 +15,7 @@ return new class() extends Migration
     {
         Schema::create('customers', function (Blueprint $table): void {
             $table->uuid('id');
+            $table->uuid('branch_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
             $table->string('phone_number')->nullable();
             $table->string('email')->unique()->nullable();

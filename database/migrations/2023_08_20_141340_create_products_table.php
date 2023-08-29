@@ -15,6 +15,7 @@ return new class() extends Migration
     {
         Schema::create('products', function (Blueprint $table): void {
             $table->uuid('id')->index();
+            $table->uuid('branch_id')->nullable()->constrained()->nullOnDelete();
             $table->uuid('category_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
             $table->string('sku');

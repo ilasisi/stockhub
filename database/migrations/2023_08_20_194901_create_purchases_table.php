@@ -15,6 +15,7 @@ return new class() extends Migration
     {
         Schema::create('purchases', function (Blueprint $table): void {
             $table->uuid('id');
+            $table->uuid('branch_id')->nullable()->constrained()->nullOnDelete();
             $table->uuid('user_id')->nullable()->constrained()->nullOnDelete();
             $table->uuid('customer_id')->nullable()->constrained()->nullOnDelete();
             $table->uuid('payment_type_id')->nullable()->constrained()->nullOnDelete();

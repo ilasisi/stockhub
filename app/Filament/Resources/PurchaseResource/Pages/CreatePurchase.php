@@ -6,9 +6,11 @@ namespace App\Filament\Resources\PurchaseResource\Pages;
 
 use App\Filament\Resources\PurchaseResource;
 use App\Models\Product;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Database\Eloquent\Builder;
 
 class CreatePurchase extends CreateRecord
 {
@@ -36,7 +38,7 @@ class CreatePurchase extends CreateRecord
                         ->schema([
                             Forms\Components\Select::make('product_id')
                                 ->label('Item')
-                                ->options(Product::all()->pluck('name', 'id'))
+                                ->options(Product::ownedByMyBranch()->pluck('name', 'id'))
                                 ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get): void {
                                     $product = Product::find($state);
 
@@ -114,7 +116,11 @@ class CreatePurchase extends CreateRecord
                         ->columns(['lg' => 2])
                         ->schema([
                             Forms\Components\Select::make('customer_id')
-                                ->relationship('customer', 'name')
+                                ->relationship(
+                                    name: 'customer',
+                                    titleAttribute: 'name',
+                                    modifyQueryUsing: fn (Builder $query) => $query->ownedByMyBranch()
+                                )
                                 ->label('Select or Add Customer')
                                 ->required()
                                 ->preload()
@@ -126,14 +132,42 @@ class CreatePurchase extends CreateRecord
                                         ->tel(),
                                     Forms\Components\TextInput::make('email')
                                         ->email(),
+                                    Forms\Components\Hidden::make('branch_id')
+                                        ->default(function () {
+                                            $tenant = Filament::getTenant();
+
+                                            return $tenant->id;
+                                        }),
+                                ])
+                                ->editOptionForm([
+                                    Forms\Components\TextInput::make('name')
+                                        ->required(),
+                                    Forms\Components\TextInput::make('phone_number')
+                                        ->tel(),
+                                    Forms\Components\TextInput::make('email')
+                                        ->email(),
                                 ]),
                             Forms\Components\Select::make('payment_type_id')
-                                ->relationship('paymentType', 'name')
+                                ->relationship(
+                                    name: 'paymentType',
+                                    titleAttribute: 'name',
+                                    modifyQueryUsing: fn (Builder $query) => $query->ownedByMyBranch()
+                                )
                                 ->label('Select or Add Payment Type')
                                 ->required()
                                 ->preload()
                                 ->searchable()
                                 ->createOptionForm([
+                                    Forms\Components\TextInput::make('name')
+                                        ->required(),
+                                    Forms\Components\Hidden::make('branch_id')
+                                        ->default(function () {
+                                            $tenant = Filament::getTenant();
+
+                                            return $tenant->id;
+                                        }),
+                                ])
+                                ->editOptionForm([
                                     Forms\Components\TextInput::make('name')
                                         ->required(),
                                 ]),

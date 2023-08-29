@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Tenancy\EditBranchProfile;
+use App\Filament\Pages\Tenancy\RegisterBranch;
+use App\Models\Branch;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -31,6 +35,18 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->colors([
                 'primary' => Color::Amber,
+            ])
+            ->tenant(
+                Branch::class,
+                ownershipRelationship: 'branch',
+                slugAttribute: 'slug'
+            )
+            ->tenantRegistration(RegisterBranch::class)
+            ->tenantProfile(EditBranchProfile::class)
+            ->tenantRoutePrefix('branch')
+            ->tenantMenuItems([
+                'profile' => MenuItem::make()->label('Update branch details'),
+                'register' => MenuItem::make()->label('Add new branch'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

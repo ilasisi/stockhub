@@ -7,11 +7,13 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Category;
 use App\Models\Product;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductResource extends Resource
 {
@@ -29,7 +31,11 @@ class ProductResource extends Resource
                     ->live()
                     ->required(),
                 Forms\Components\Select::make('category_id')
-                    ->relationship('category', 'name')
+                    ->relationship(
+                        name: 'category',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: fn (Builder $query) => $query->ownedByMyBranch()
+                    )
                     ->preload()
                     ->live()
                     ->searchable()
@@ -42,6 +48,17 @@ class ProductResource extends Resource
                         }
                     })
                     ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->unique(Category::class, 'name', ignoreRecord: false)
+                            ->required(),
+                        Forms\Components\Hidden::make('branch_id')
+                            ->default(function () {
+                                $tenant = Filament::getTenant();
+
+                                return $tenant->id;
+                            }),
+                    ])
+                    ->editOptionForm([
                         Forms\Components\TextInput::make('name')
                             ->unique(Category::class, 'name', ignoreRecord: false)
                             ->required(),
