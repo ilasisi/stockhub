@@ -8,7 +8,7 @@
             <p>{{ Filament\Facades\Filament::getTenant()->contact_phone }}</p>
         </div>
     </div>
-    <div class="flex justify-between mb-6 text-gray-700 py-2 border-b">
+    <div class="flex justify-between mb-6 text-gray-700 py-2 border-b text-sm">
         <div>
             <h2 class="font-bold">Customer:</h2>
             <p class="text-gray-700">
@@ -20,7 +20,7 @@
             <p>{{ $record->created_at->format('jS M, Y h:mA') }}</p>
         </div>
     </div>
-    <table class="w-full mb-8 py-3">
+    <table class="w-full mb-8 py-3 text-sm">
         <thead>
             <tr>
                 <th class="text-left font-bold text-gray-700 pt-2">Description</th>
@@ -31,13 +31,13 @@
         <tbody>
             @foreach ($record->purchaseItems as $item)
                 <tr>
-                    <td width="50%" class="text-left text-gray-700">
+                    <td class="text-left text-gray-700">
                         {{ str($item->product->name)->excerpt(null, ['radius' => 20]) }}
                     </td>
-                    <td width="25%" class="text-left text-gray-700">
+                    <td class="text-left text-gray-700">
                         {{ $item->quantity }}x₦{{ number_format($item->unit_price, 2) }}
                     </td>
-                    <td width="25%" class="text-right text-gray-700">
+                    <td class="text-right text-gray-700">
                         ₦{{ number_format($item->total_price, 2) }}
                     </td>
                 </tr>

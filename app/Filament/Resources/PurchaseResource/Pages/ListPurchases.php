@@ -57,7 +57,7 @@ class ListPurchases extends ListRecords
                         ['record' => $record],
                     ))
                     ->modalHeading('')
-                    ->modalWidth('md')
+                    ->modalWidth('sm')
                     ->action(function (): void {
                         $this->js('window.print();');
                     })
