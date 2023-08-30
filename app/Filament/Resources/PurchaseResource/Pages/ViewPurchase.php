@@ -9,7 +9,6 @@ use Filament\Actions\Action;
 use Filament\Actions\StaticAction;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\View\View;
-use Livewire\Attributes\Js;
 
 class ViewPurchase extends ViewRecord
 {
@@ -19,6 +18,7 @@ class ViewPurchase extends ViewRecord
     {
         return [
             Action::make('print_invoice')
+                ->icon('heroicon-o-printer')
                 ->label('Print Invoice')
                 ->modalContent(fn ($record): View => view(
                     'filament.pages.actions.print_invoice',
