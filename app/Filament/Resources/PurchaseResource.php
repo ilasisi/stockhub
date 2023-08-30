@@ -7,7 +7,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PurchaseResource\Pages;
 use App\Filament\Resources\PurchaseResource\RelationManagers\PurchaseItemsRelationManager;
 use App\Models\Purchase;
-use Filament\Actions\StaticAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Components;
@@ -15,9 +14,6 @@ use Filament\Infolists\Components\TextEntry\TextEntrySize;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 
 class PurchaseResource extends Resource
@@ -43,58 +39,6 @@ class PurchaseResource extends Resource
             ->disabled()
             ->dehydrated()
             ->numeric();
-    }
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('customer.name')
-                    ->label('Customer')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('paymentType.name')
-                    ->label('Paid With')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('Sold By')
-                    ->default('N/A')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('grand_total')
-                    ->numeric()
-                    ->formatNaira()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->capitalize()
-                    ->badge()
-                    ->icon('heroicon-o-check-circle')
-                    ->color('success')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable(),
-            ])
-            ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
-            ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\Action::make('print_invoice')
-                    ->label('Print')
-                    ->icon('heroicon-o-printer')
-                    ->modalContent(fn ($record): View => view(
-                        'filament.pages.actions.print_invoice',
-                        ['record' => $record],
-                    ))
-                    ->modalHeading('')
-                    ->modalWidth('sm')
-                    ->action(function (): void {
-                        self::js('window.print();');
-                    })
-                    ->modalSubmitActionLabel('Print')
-                    ->stickyModalFooter()
-                    ->modalCancelAction(fn (StaticAction $action) => $action->label('Close'))
-                    ->closeModalByClickingAway(false),
-            ]);
     }
 
     public static function infolist(Infolist $infolist): Infolist

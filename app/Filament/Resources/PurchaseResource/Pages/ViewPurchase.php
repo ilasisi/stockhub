@@ -25,7 +25,7 @@ class ViewPurchase extends ViewRecord
                     ['record' => $record],
                 ))
                 ->modalHeading('')
-                ->modalWidth('sm')
+                ->modalWidth('md')
                 ->action(function (): void {
                     $this->js('window.print();');
                 })

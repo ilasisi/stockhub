@@ -1,6 +1,6 @@
 <div id="invoiceModal">
     <div class="border-b py-2">
-        <h1 class="font-bold text-2xl text-center text-black">
+        <h1 class="hidden-print font-bold text-2xl text-center text-black">
             {{ config('app.name') }}
         </h1>
         <div class="text-sm text-center">
@@ -15,25 +15,29 @@
                 {{ $record->customer->name }}
             </p>
         </div>
-        <div>
-            <div>#{{ $record->ref }}</div>
-            <div>{{ $record->created_at->format('m/d/Y h:m A') }}</div>
+        <div class="text-sm">
+            <p>#{{ $record->ref }}</p>
+            <p>{{ $record->created_at->format('jS M, Y h:mA') }}</p>
         </div>
     </div>
     <table class="w-full mb-8 py-3">
         <thead>
             <tr>
                 <th class="text-left font-bold text-gray-700 pt-2">Description</th>
-                <th class="text-right font-bold text-gray-700 pt-2">Amount</th>
+                <th class="text-left font-bold text-gray-700 pt-2">QtyxPrice</th>
+                <th class="text-right font-bold text-gray-700 pt-2">Total</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($record->purchaseItems as $item)
                 <tr>
-                    <td class="text-left text-gray-700">
-                        x{{ $item->quantity }} - {{ $item->product->name }}
+                    <td width="50%" class="text-left text-gray-700">
+                        {{ str($item->product->name)->excerpt(null, ['radius' => 20]) }}
                     </td>
-                    <td class="text-right text-gray-700">
+                    <td width="25%" class="text-left text-gray-700">
+                        {{ $item->quantity }}x₦{{ number_format($item->unit_price, 2) }}
+                    </td>
+                    <td width="25%" class="text-right text-gray-700">
                         ₦{{ number_format($item->total_price, 2) }}
                     </td>
                 </tr>
@@ -45,6 +49,7 @@
                     <td class="text-left font-bold text-gray-700" style="padding-top: 10px">
                         Discount
                     </td>
+                    <td></td>
                     <td class="text-right font-bold text-gray-700">
                         ₦{{ number_format($record->discount, 2) }}
                     </td>
@@ -53,6 +58,7 @@
             @if ($record->vat > 0)
                 <tr>
                     <td class="text-left font-bold text-gray-700">VAT</td>
+                    <td></td>
                     <td class="text-right font-bold text-gray-700">
                         ₦{{ number_format($record->vat, 2) }}
                     </td>
@@ -60,14 +66,25 @@
             @endif
             <tr>
                 <td class="text-left font-bold text-gray-700">Total</td>
+                <td></td>
                 <td class="text-right font-bold text-gray-700">
                     ₦{{ number_format($record->items_total, 2) }}
                 </td>
             </tr>
             <tr>
                 <td class="text-left font-bold text-gray-700">Grand Total</td>
+                <td></td>
                 <td class="text-right font-bold text-gray-700">
                     ₦{{ number_format($record->grand_total, 2) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="text-left text-gray-700" style="padding-top: 10px">
+                    Mode of Payment
+                </td>
+                <td></td>
+                <td class="text-right text-gray-700 whitespace-nowrap">
+                    {{ $record->paymentType->name }}
                 </td>
             </tr>
         </tfoot>
