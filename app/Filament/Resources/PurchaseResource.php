@@ -14,7 +14,6 @@ use Filament\Infolists\Components\TextEntry\TextEntrySize;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
-use Illuminate\Database\Eloquent\Model;
 
 class PurchaseResource extends Resource
 {
@@ -81,7 +80,6 @@ class PurchaseResource extends Resource
                                     Components\Group::make([
                                         Components\TextEntry::make('discount')
                                             ->label('Discount Amount')
-                                            ->formatStateUsing(fn (Model $record) => $record->discount)
                                             ->default(0)
                                             ->formatNaira()
                                             ->weight(FontWeight::Bold)
@@ -90,7 +88,6 @@ class PurchaseResource extends Resource
                                     Components\Group::make([
                                         Components\TextEntry::make('vat')
                                             ->label('VAT')
-                                            ->formatStateUsing(fn (Model $record) => $record->vat)
                                             ->default(0)
                                             ->formatNaira()
                                             ->weight(FontWeight::Bold)
