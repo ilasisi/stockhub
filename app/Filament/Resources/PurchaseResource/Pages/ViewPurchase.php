@@ -9,6 +9,7 @@ use Filament\Actions\Action;
 use Filament\Actions\StaticAction;
 use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\View\View;
+use Livewire\Attributes\Js;
 
 class ViewPurchase extends ViewRecord
 {
@@ -26,10 +27,7 @@ class ViewPurchase extends ViewRecord
                 ->modalHeading('')
                 ->modalWidth('sm')
                 ->action(function (): void {
-                    dd($this->record);
-                })
-                ->mountUsing(function (): void {
-                    // dd($this->record);
+                    $this->js('window.print();');
                 })
                 ->modalSubmitActionLabel('Print')
                 ->stickyModalFooter()

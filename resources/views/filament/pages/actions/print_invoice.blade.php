@@ -1,4 +1,4 @@
-<div>
+<div id="invoiceModal">
     <div class="border-b py-2">
         <h1 class="font-bold text-2xl text-center text-black">
             {{ config('app.name') }}
@@ -72,7 +72,7 @@
             </tr>
         </tfoot>
     </table>
-    <div class="py-2 border-t mt-2">
+    <div class="py-2 border-t mt-2 text-center">
         <p class="text-gray-700 text-sm mb-1">Thanks for you patronage!</p>
         <p class="text-gray-700 text-xs">
             Order bought in good condition can not be returned!
