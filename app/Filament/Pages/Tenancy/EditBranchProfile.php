@@ -6,6 +6,7 @@ namespace App\Filament\Pages\Tenancy;
 
 use App\Models\Branch;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -23,7 +24,7 @@ class EditBranchProfile extends EditTenantProfile
         return $form
             ->schema([
                 Section::make()
-                    ->columns(2)
+                    ->columns(3)
                     ->schema([
                         TextInput::make('name')
                             ->live(onBlur: true)
@@ -33,6 +34,10 @@ class EditBranchProfile extends EditTenantProfile
                             ->disabled()
                             ->unique(Branch::class, 'slug', ignoreRecord: true)
                             ->dehydrated(),
+                        TextInput::make('contact_phone')
+                            ->required(),
+                        Textarea::make('address')
+                            ->columnSpanFull(),
                     ]),
             ]);
     }

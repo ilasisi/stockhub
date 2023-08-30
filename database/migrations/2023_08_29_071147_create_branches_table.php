@@ -17,6 +17,8 @@ return new class() extends Migration
             $table->uuid('id');
             $table->string('name');
             $table->string('slug');
+            $table->text('address');
+            $table->text('contact_phone');
             $table->timestamps();
         });
 

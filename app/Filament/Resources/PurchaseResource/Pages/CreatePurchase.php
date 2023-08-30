@@ -22,6 +22,8 @@ class CreatePurchase extends CreateRecord
     {
         $data['user_id'] = auth()->id();
 
+        $data['ref'] = str(str()->random(12))->upper();
+
         return $data;
     }
 

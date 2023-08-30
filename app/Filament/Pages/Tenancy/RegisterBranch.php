@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Pages\Tenancy;
 
 use App\Models\Branch;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
@@ -29,6 +30,9 @@ class RegisterBranch extends RegisterTenant
                     ->disabled()
                     ->unique(Branch::class, 'slug')
                     ->dehydrated(),
+                TextInput::make('contact_phone')
+                    ->required(),
+                Textarea::make('address'),
             ]);
     }
 

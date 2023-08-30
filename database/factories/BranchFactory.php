@@ -23,6 +23,8 @@ class BranchFactory extends Factory
         return [
             'name' => $name,
             'slug' => str($name)->slug(),
+            'address' => fake()->address(),
+            'contact_phone' => fake()->phoneNumber(),
         ];
     }
 }
