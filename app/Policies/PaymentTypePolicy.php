@@ -65,7 +65,7 @@ class PaymentTypePolicy
      */
     public function forceDelete(User $user, PaymentType $paymentType): bool
     {
-        return $user->can('force_delete_payment::type');
+        return $user->can('{{ ForceDelete }}');
     }
 
     /**
@@ -73,7 +73,7 @@ class PaymentTypePolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_payment::type');
+        return $user->can('{{ ForceDeleteAny }}');
     }
 
     /**
@@ -81,7 +81,7 @@ class PaymentTypePolicy
      */
     public function restore(User $user, PaymentType $paymentType): bool
     {
-        return $user->can('restore_payment::type');
+        return $user->can('{{ Restore }}');
     }
 
     /**
@@ -89,7 +89,7 @@ class PaymentTypePolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_payment::type');
+        return $user->can('{{ RestoreAny }}');
     }
 
     /**
@@ -97,7 +97,7 @@ class PaymentTypePolicy
      */
     public function replicate(User $user, PaymentType $paymentType): bool
     {
-        return $user->can('replicate_payment::type');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -105,6 +105,6 @@ class PaymentTypePolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_payment::type');
+        return $user->can('{{ Reorder }}');
     }
 }

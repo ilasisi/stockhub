@@ -16,7 +16,7 @@ class PaymentTypeResource extends Resource
 {
     protected static ?string $model = PaymentType::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+    protected static ?string $navigationGroup = 'Store';
 
     protected static ?int $navigationSort = 4;
 

@@ -11,9 +11,11 @@ use Filament\Pages\SettingsPage;
 
 class ManageInvoice extends SettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
-
     protected static string $settings = InvoiceSettings::class;
+
+    protected static ?string $navigationGroup = 'Settings';
+
+    protected static ?string $title = 'Invoice Settings';
 
     public function form(Form $form): Form
     {
