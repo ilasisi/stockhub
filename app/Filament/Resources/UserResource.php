@@ -6,6 +6,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -31,9 +32,20 @@ class UserResource extends Resource
                     ->unique(User::class, 'email', ignoreRecord: true)
                     ->email()
                     ->required(),
+                Forms\Components\Select::make('roles')
+                    ->multiple()
+                    ->relationship(
+                        name: 'roles',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: function (Builder $query): void {
+                            $query->where('roles.branch_id', Filament::getTenant()->id)
+                                ->orWhereNull('roles.branch_id');
+                        }
+                    )
+                    ->preload(),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->required(),
+                    ->visibleOn('create'),
             ]);
     }
 
@@ -45,6 +57,8 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

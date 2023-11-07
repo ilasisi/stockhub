@@ -37,6 +37,11 @@ class Branch extends Model implements HasCurrentTenantLabel
         return $this->hasMany(Category::class);
     }
 
+    public function roles(): HasMany
+    {
+        return $this->hasMany(Role::class);
+    }
+
     public function customers(): HasMany
     {
         return $this->hasMany(Customer::class);

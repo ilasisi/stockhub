@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
@@ -16,10 +17,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasTenants
 {
-    use HasApiTokens, HasFactory, HasUuids, Notifiable;
+    use HasApiTokens, HasFactory, HasPanelShield, HasPermissions, HasRoles, HasUuids, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -64,7 +67,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
 
     public function branch(): BelongsTo
     {
-        return $this->belongsTo(Branch::class, 'id', 'branch_id', relation: 'branch_user');
+        return $this->belongsTo(Branch::class, 'branch_id', 'id', relation: 'branch_user');
     }
 
     public function canAccessTenant(Model $tenant): bool
@@ -75,5 +78,10 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole('Super Admin');
     }
 }
