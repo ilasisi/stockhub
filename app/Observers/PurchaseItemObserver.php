@@ -18,8 +18,11 @@ class PurchaseItemObserver
 
     public function created(PurchaseItem $purchaseItem): void
     {
-        Product::query()
-            ->find($purchaseItem->product_id)
-            ->decrement('available_quantity', $purchaseItem->quantity);
+        $product = Product::query()
+            ->find($purchaseItem->product_id);
+
+        $product->decrement('available_quantity', $purchaseItem->quantity);
+
+        $product->increment('items_sold', $purchaseItem->quantity);
     }
 }

@@ -105,6 +105,12 @@ class ProductResource extends Resource
                     ->badge()
                     ->color(fn ($state) => $state <= 10 ? 'danger' : ($state <= 25 ? 'warning' : 'success'))
                     ->searchable(),
+                Tables\Columns\TextColumn::make('items_sold')
+                    ->label('Items Sold')
+                    ->sortable()
+                    ->badge()
+                    ->color(fn ($state) => $state >= 10 ? 'success' : 'gray')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->searchable()
                     ->sortable(),

@@ -35,20 +35,20 @@ return new class() extends Migration
             $table->unique(['name', 'guard_name']);
         });
 
-        Schema::create($tableNames['roles'], function (Blueprint $table) use ($teams, $columnNames): void {
+        Schema::create($tableNames['roles'], function (Blueprint $table) use ($columnNames): void {
             $table->bigIncrements('id'); // role id
-            if ($teams || config('permission.testing')) { // permission.testing is a fix for sqlite testing
-                $table->unsignedBigInteger($columnNames['team_foreign_key'])->nullable();
-                $table->index($columnNames['team_foreign_key'], 'roles_team_foreign_key_index');
-            }
+            // if ($teams || config('permission.testing')) { // permission.testing is a fix for sqlite testing
+            $table->unsignedBigInteger($columnNames['team_foreign_key'])->nullable();
+            $table->index($columnNames['team_foreign_key'], 'roles_team_foreign_key_index');
+            // }
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
             $table->timestamps();
-            if ($teams || config('permission.testing')) {
-                $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);
-            } else {
-                $table->unique(['name', 'guard_name']);
-            }
+            // if ($teams || config('permission.testing')) {
+            $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);
+            // } else {
+            //     $table->unique(['name', 'guard_name']);
+            // }
         });
 
         Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotPermission, $teams): void {
@@ -76,7 +76,6 @@ return new class() extends Migration
                     'model_has_permissions_permission_model_type_primary'
                 );
             }
-
         });
 
         Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotRole, $teams): void {

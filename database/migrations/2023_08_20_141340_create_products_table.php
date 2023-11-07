@@ -21,6 +21,7 @@ return new class() extends Migration
             $table->string('sku');
             $table->double('price', 8, 2);
             $table->integer('available_quantity')->default(0);
+            $table->bigInteger('items_sold')->default(0);
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
