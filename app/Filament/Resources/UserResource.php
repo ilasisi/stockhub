@@ -38,8 +38,7 @@ class UserResource extends Resource
                         name: 'roles',
                         titleAttribute: 'name',
                         modifyQueryUsing: function (Builder $query): void {
-                            $query->where('roles.branch_id', Filament::getTenant()->id)
-                                ->orWhereNull('roles.branch_id');
+                            $query->where('roles.branch_id', Filament::getTenant()->id);
                         }
                     )
                     ->preload(),

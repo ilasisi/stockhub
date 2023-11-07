@@ -23,11 +23,13 @@ class RoleResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->columnSpan(['md' => 2]),
                 Forms\Components\Select::make('permissions')
                     ->multiple()
                     ->relationship('permissions', 'name')
-                    ->preload(),
+                    ->preload()
+                    ->columnSpan(['md' => 2]),
             ]);
     }
 
@@ -41,9 +43,7 @@ class RoleResource extends Resource
                     ->label('No. of Permissions')
                     ->counts('permissions'),
             ])
-            ->filters([
-
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
@@ -59,9 +59,7 @@ class RoleResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     public static function getPages(): array

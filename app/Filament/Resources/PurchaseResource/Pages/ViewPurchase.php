@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\PurchaseResource\Pages;
 
 use App\Filament\Resources\PurchaseResource;
+use App\Settings\InvoiceSettings;
 use Filament\Actions\Action;
 use Filament\Actions\StaticAction;
 use Filament\Resources\Pages\ViewRecord;
@@ -20,9 +21,9 @@ class ViewPurchase extends ViewRecord
             Action::make('print_invoice')
                 ->icon('heroicon-o-printer')
                 ->label('Print Invoice')
-                ->modalContent(fn ($record): View => view(
+                ->modalContent(fn ($record, InvoiceSettings $invoiceSettings): View => view(
                     'filament.pages.actions.print_invoice',
-                    ['record' => $record],
+                    ['record' => $record, 'settings' => $invoiceSettings],
                 ))
                 ->modalHeading('')
                 ->modalWidth('sm')

@@ -1,7 +1,7 @@
 <div id="invoiceModal">
     <div class="border-b py-2">
         <h1 class="hidden-print font-bold text-2xl text-center text-black">
-            {{ config('app.name') }}
+            {{ Filament\Facades\Filament::getTenant()->name }}
         </h1>
         <div class="text-sm text-center">
             <p>{{ Filament\Facades\Filament::getTenant()->address }}</p>
@@ -90,9 +90,11 @@
         </tfoot>
     </table>
     <div class="py-2 border-t mt-2 text-center">
-        <p class="text-gray-700 text-sm mb-1">Thanks for you patronage!</p>
+        <p class="text-gray-700 text-sm mb-1">
+            {{ $settings->thank_you_message }}
+        </p>
         <p class="text-gray-700 text-xs">
-            Order bought in good condition can not be returned!
+            {{ $settings->sub_thank_you_message }}
         </p>
     </div>
 </div>
