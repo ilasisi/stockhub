@@ -10,7 +10,9 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use stdClass;
 
 class CustomerResource extends Resource
 {
@@ -37,6 +39,18 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('index')
+                    ->label('SN')
+                    ->state(
+                        static function (HasTable $livewire, stdClass $rowLoop): string {
+                            return (string) (
+                                $rowLoop->iteration +
+                                ($livewire->getTableRecordsPerPage() * (
+                                    $livewire->getTablePage() - 1
+                                ))
+                            );
+                        }
+                    ),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable(),

@@ -10,8 +10,10 @@ use Filament\Actions;
 use Filament\Actions\StaticAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
+use stdClass;
 
 class ListPurchases extends ListRecords
 {
@@ -21,6 +23,18 @@ class ListPurchases extends ListRecords
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('index')
+                    ->label('SN')
+                    ->state(
+                        static function (HasTable $livewire, stdClass $rowLoop): string {
+                            return (string) (
+                                $rowLoop->iteration +
+                                ($livewire->getTableRecordsPerPage() * (
+                                    $livewire->getTablePage() - 1
+                                ))
+                            );
+                        }
+                    ),
                 Tables\Columns\TextColumn::make('customer.name')
                     ->label('Customer')
                     ->searchable(),
