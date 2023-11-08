@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\EditProfile;
 use App\Filament\Pages\Tenancy\EditBranchProfile;
 use App\Filament\Pages\Tenancy\RegisterBranch;
+use App\Filament\Resources\PurchaseResource\Pages\CreatePurchase;
 use App\Models\Branch;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
 use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -34,6 +36,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('/')
             ->login()
+            ->passwordReset()
+            ->profile(EditProfile::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -55,10 +59,7 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                // Widgets\AccountWidget::class,
-                // Widgets\FilamentInfoWidget::class,
-            ])
+            ->widgets([])
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Store')
@@ -67,6 +68,18 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('Settings')
                     ->icon('heroicon-o-cog-6-tooth'),
+            ])
+            ->navigationItems([
+                NavigationItem::make('create_purchase')
+                    ->url(fn (): string => CreatePurchase::getUrl())
+                    ->icon('heroicon-o-shopping-bag')
+                    ->sort(1)
+                    ->visible(fn (): bool => auth()->user()->can('create_purchase'))
+                    ->label(fn (): string => 'Create Purchase')
+                    ->isActiveWhen(fn () => request()->routeIs(CreatePurchase::getRouteName())),
+            ])
+            ->userMenuItems([
+                'profile' => MenuItem::make()->label('Edit profile'),
             ])
             ->middleware([
                 EncryptCookies::class,

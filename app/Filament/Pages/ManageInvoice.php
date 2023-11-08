@@ -17,6 +17,16 @@ class ManageInvoice extends SettingsPage
 
     protected static ?string $title = 'Invoice Settings';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->isSuperAdmin();
+    }
+
+    public function boot(): void
+    {
+        abort_unless(auth()->user()->isSuperAdmin(), 403);
+    }
+
     public function form(Form $form): Form
     {
         return $form
