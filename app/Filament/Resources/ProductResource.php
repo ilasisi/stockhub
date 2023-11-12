@@ -146,13 +146,11 @@ class ProductResource extends Resource
                     ExportBulkAction::make()
                         ->exports([
                             ExcelExport::make()
-                                ->fromModel()
-                                ->withFilename(fn ($resource) => $resource::getModelLabel() . '-' . date('Y-m-d'))
-                                ->withWriterType(\Maatwebsite\Excel\Excel::CSV)
-                                ->except([
-                                    'id', 'branch_id', 'category_id', 'updated_at', 'deleted_at',
-                                ])
-                                ->queue(),
+                                ->fromTable()
+                                ->withFilename(fn ($resource) => $resource::getModelLabel() . '-' . date('Y-m-d-m-h-s'))
+                                ->withWriterType(\Maatwebsite\Excel\Excel::XLSX)
+                                ->ignoreFormatting(['price'])
+                                ->except(['index']),
                         ]),
                 ]),
             ])
