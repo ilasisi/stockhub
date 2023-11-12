@@ -15,6 +15,8 @@ use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use stdClass;
 
 class ProductResource extends Resource
@@ -141,6 +143,17 @@ class ProductResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make()
+                        ->exports([
+                            ExcelExport::make()
+                                ->fromModel()
+                                ->withFilename(fn ($resource) => $resource::getModelLabel() . '-' . date('Y-m-d'))
+                                ->withWriterType(\Maatwebsite\Excel\Excel::CSV)
+                                ->except([
+                                    'id', 'branch_id', 'category_id', 'updated_at', 'deleted_at',
+                                ])
+                                ->queue(),
+                        ]),
                 ]),
             ])
             ->emptyStateActions([
