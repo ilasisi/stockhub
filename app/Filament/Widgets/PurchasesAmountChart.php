@@ -14,7 +14,7 @@ use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class PurchasesAmountChart extends ApexChartWidget
 {
-    protected static string $chartId = 'purchasesAmountChart';
+    protected static ?string $chartId = 'purchasesAmountChart';
 
     protected static ?string $heading = 'Purchases (Amount) Per Month';
 

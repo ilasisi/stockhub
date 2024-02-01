@@ -17,7 +17,7 @@
         </div>
         <div class="text-sm">
             <p>#{{ $record->ref }}</p>
-            <p>{{ $record->created_at->format('jS M, Y h:mA') }}</p>
+            <p>{{ $record->created_at->format('jS M, Y h:iA') }}</p>
         </div>
     </div>
     <table class="w-full mb-8 py-3 text-sm">

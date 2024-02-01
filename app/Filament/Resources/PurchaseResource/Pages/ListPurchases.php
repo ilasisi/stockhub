@@ -80,7 +80,8 @@ class ListPurchases extends ListRecords
                     ->stickyModalFooter()
                     ->modalCancelAction(fn (StaticAction $action) => $action->label('Close'))
                     ->closeModalByClickingAway(false),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     protected function getHeaderActions(): array

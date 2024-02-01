@@ -10,7 +10,7 @@ use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class TopSellingProductsAmountChart extends ApexChartWidget
 {
-    protected static string $chartId = 'topSellingProductsAmountChart';
+    protected static ?string $chartId = 'topSellingProductsAmountChart';
 
     protected static ?string $heading = 'Top Selling Products (Amount)';
 

@@ -12,7 +12,7 @@ use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class CustomersChart extends ApexChartWidget
 {
-    protected static string $chartId = 'customersChart';
+    protected static ?string $chartId = 'customersChart';
 
     protected static ?string $heading = 'Customers Per Month';
 

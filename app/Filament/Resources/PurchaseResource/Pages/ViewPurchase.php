@@ -15,6 +15,17 @@ class ViewPurchase extends ViewRecord
 {
     protected static string $resource = PurchaseResource::class;
 
+    public function boot(): void
+    {
+        if (request('showReceipt') === 'true') {
+            $this->js('
+            setTimeout(() => {
+                $refs.receiptButton.click();
+            }, 1000);
+            ');
+        }
+    }
+
     protected function getActions(): array
     {
         return [
@@ -33,7 +44,10 @@ class ViewPurchase extends ViewRecord
                 ->modalSubmitActionLabel('Print')
                 ->stickyModalFooter()
                 ->modalCancelAction(fn (StaticAction $action) => $action->label('Close'))
-                ->closeModalByClickingAway(false),
+                ->closeModalByClickingAway(false)
+                ->extraAttributes([
+                    'x-ref' => 'receiptButton',
+                ]),
         ];
     }
 }
