@@ -70,7 +70,7 @@ class CreatePurchase extends CreateRecord
                                 ->minValue(1)
                                 ->maxValue(fn (Forms\Get $get) => $get('available_qty'))
                                 ->label('Qty.')
-                                ->disabled(fn (Forms\Get $get) => !$get('product_id'))
+                                ->disabled(fn (Forms\Get $get) => ! $get('product_id'))
                                 ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get): void {
                                     $product = Product::find($get('product_id'));
 
@@ -202,7 +202,7 @@ class CreatePurchase extends CreateRecord
                                                 ->minValue(0)
                                                 ->prefix('₦')
                                                 ->numeric()
-                                                ->hidden(fn (Forms\Get $get): bool => !$get('is_discount_amount'))
+                                                ->hidden(fn (Forms\Get $get): bool => ! $get('is_discount_amount'))
                                                 ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get): void {
                                                     $set('grand_total', $get('items_total') - $state + $get('vat_amount'));
                                                 }),
@@ -233,7 +233,7 @@ class CreatePurchase extends CreateRecord
                                                 ->label('VAT (₦)')
                                                 ->minValue(0)
                                                 ->live(onBlur: true)
-                                                ->hidden(fn (Forms\Get $get): bool => !$get('is_vat_amount'))
+                                                ->hidden(fn (Forms\Get $get): bool => ! $get('is_vat_amount'))
                                                 ->prefix('₦')
                                                 ->numeric()
                                                 ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get): void {

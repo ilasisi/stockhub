@@ -17,7 +17,7 @@ class ViewPurchase extends ViewRecord
 
     public function boot(): void
     {
-        if (request('showReceipt') === 'true') {
+        if ('true' === request('showReceipt')) {
             $this->js('
             setTimeout(() => {
                 $refs.receiptButton.click();
